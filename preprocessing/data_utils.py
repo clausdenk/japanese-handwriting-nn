@@ -1,11 +1,12 @@
 """Utilities for loading raw data"""
 
+import sys
 import struct
 import numpy as np
 from PIL import Image, ImageEnhance
 
 # Specify the path to the ETL character database files
-ETL_PATH = 'ETLC'
+ETL_PATH = '/home/claus/dev/python/japanese-handwriting-nn/ETLC'
 
 
 def read_record(database, f):
@@ -19,6 +20,7 @@ def read_record(database, f):
     Returns:
         img_out (PIL image): image of the Japanese character
     """
+
     W, H = 64, 63
     if database == 'ETL8B2':
         s = f.read(512)
@@ -85,6 +87,7 @@ def get_ETL_data(dataset, categories, writers_per_char,
     except:
         filename = name_base + str(dataset)
 
+    print("reading",filename)
     X = []
     Y = []
     scriptTypes = []
@@ -95,7 +98,7 @@ def get_ETL_data(dataset, categories, writers_per_char,
         categories = [categories]
 
     for id_category in categories:
-        with open(filename, 'r') as f:
+        with open(filename, 'rb') as f:
             if database == 'ETL8B2':
                 f.seek((id_category * 160 + 1) * 512)
             elif database == 'ETL1C':
@@ -130,7 +133,7 @@ def get_ETL_data(dataset, categories, writers_per_char,
                     else:
                         outData = np.asarray(iI.getdata()).reshape(
                             shapes[0], shapes[1])
-
+                    
                     X.append(outData)
                     if database == 'ETL8B2':
                         Y.append(r[1])
@@ -142,6 +145,7 @@ def get_ETL_data(dataset, categories, writers_per_char,
                         Y.append(r[3])
                         scriptTypes.append(1)
                 except:
+                    print("Error:",sys.exc_info()[0],"occured.")
                     break
     output = []
     if img_format:

@@ -466,52 +466,52 @@ def M16(weights_path='weights/keras_VGG-16-katakana_weights.h5',
         trainable = True
 
     model = Sequential()
-    model.add(Convolution2D(64, 3, 3, trainable=trainable,
+    model.add(Conv2D(64, (3, 3), trainable=True,
                             name='conv1_1', input_shape=input_shape))
     model.add(Activation('relu'))
     model.add(ZeroPadding2D((1, 1)))
-    model.add(Convolution2D(64, 3, 3, activation='relu', name='conv1_2'))
+    model.add(Conv2D(64, (3, 3), activation='relu', name='conv1_2'))
     model.add(Activation('relu'))
     model.add(MaxPooling2D((2, 2), strides=(2, 2)))
 
     model.add(ZeroPadding2D((1, 1)))
-    model.add(Convolution2D(128, 3, 3, activation='relu', name='conv2_1'))
+    model.add(Conv2D(128, (3, 3), activation='relu', name='conv2_1'))
     model.add(Activation('relu'))
     model.add(ZeroPadding2D((1, 1)))
-    model.add(Convolution2D(128, 3, 3, activation='relu', name='conv2_2'))
-    model.add(Activation('relu'))
-    model.add(MaxPooling2D((2, 2), strides=(2, 2)))
-
-    model.add(ZeroPadding2D((1, 1)))
-    model.add(Convolution2D(256, 3, 3, activation='relu', name='conv3_1'))
-    model.add(Activation('relu'))
-    model.add(ZeroPadding2D((1, 1)))
-    model.add(Convolution2D(256, 3, 3, activation='relu', name='conv3_2'))
-    model.add(Activation('relu'))
-    model.add(ZeroPadding2D((1, 1)))
-    model.add(Convolution2D(256, 3, 3, activation='relu', name='conv3_3'))
+    model.add(Conv2D(128, (3, 3), activation='relu', name='conv2_2'))
     model.add(Activation('relu'))
     model.add(MaxPooling2D((2, 2), strides=(2, 2)))
 
     model.add(ZeroPadding2D((1, 1)))
-    model.add(Convolution2D(512, 3, 3, activation='relu', name='conv4_1'))
+    model.add(Conv2D(256, (3, 3), activation='relu', name='conv3_1'))
     model.add(Activation('relu'))
     model.add(ZeroPadding2D((1, 1)))
-    model.add(Convolution2D(512, 3, 3, activation='relu', name='conv4_2'))
+    model.add(Conv2D(256, (3, 3), activation='relu', name='conv3_2'))
     model.add(Activation('relu'))
     model.add(ZeroPadding2D((1, 1)))
-    model.add(Convolution2D(512, 3, 3, activation='relu', name='conv4_3'))
+    model.add(Conv2D(256, (3, 3), activation='relu', name='conv3_3'))
     model.add(Activation('relu'))
     model.add(MaxPooling2D((2, 2), strides=(2, 2)))
 
     model.add(ZeroPadding2D((1, 1)))
-    model.add(Convolution2D(512, 3, 3, activation='relu', name='conv5_1'))
+    model.add(Conv2D(512, (3, 3), activation='relu', name='conv4_1'))
     model.add(Activation('relu'))
     model.add(ZeroPadding2D((1, 1)))
-    model.add(Convolution2D(512, 3, 3, activation='relu', name='conv5_2'))
+    model.add(Conv2D(512, (3, 3), activation='relu', name='conv4_2'))
     model.add(Activation('relu'))
     model.add(ZeroPadding2D((1, 1)))
-    model.add(Convolution2D(512, 3, 3, activation='relu', name='conv5_3'))
+    model.add(Conv2D(512, (3, 3), activation='relu', name='conv4_3'))
+    model.add(Activation('relu'))
+    model.add(MaxPooling2D((2, 2), strides=(2, 2)))
+
+    model.add(ZeroPadding2D((1, 1)))
+    model.add(Conv2D(512, (3, 3), activation='relu', name='conv5_1'))
+    model.add(Activation('relu'))
+    model.add(ZeroPadding2D((1, 1)))
+    model.add(Conv2D(512, (3, 3), activation='relu', name='conv5_2'))
+    model.add(Activation('relu'))
+    model.add(ZeroPadding2D((1, 1)))
+    model.add(Conv2D(512, (3, 3), activation='relu', name='conv5_3'))
     model.add(Activation('relu'))
     model.add(MaxPooling2D((2, 2), strides=(2, 2)))
 
@@ -529,7 +529,7 @@ def M16(weights_path='weights/keras_VGG-16-katakana_weights.h5',
         try:
             model.load_weights(weights_path)
         except:
-            print "Can't load weights!"
+            print("Can't load weights!")
 
     return model
 

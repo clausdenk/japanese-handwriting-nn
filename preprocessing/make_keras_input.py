@@ -4,7 +4,8 @@ import numpy as np
 
 from keras.utils import np_utils
 from preprocessing.data_utils import get_ETL_data
-from sklearn import datasets, metrics, cross_validation
+from sklearn import datasets, metrics
+from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
 
 
@@ -105,17 +106,17 @@ def data(writers_per_char=160, mode='all', get_scripts=False, test_size=0.2):
     if get_scripts:
         characters_shuffle, scripts_shuffle = shuffle(
             characters, scripts, random_state=0)
-        x_train, x_test, y_train, y_test = cross_validation.train_test_split(characters_shuffle,
-                                                                             scripts_shuffle,
-                                                                             test_size=test_size,
-                                                                             random_state=42)
+        x_train, x_test, y_train, y_test = train_test_split(characters_shuffle,
+                                                            scripts_shuffle,
+                                                            test_size=test_size,
+                                                            random_state=42)
     elif mode in ('all', 'kanji', 'hiragana', 'katakana'):
         characters_shuffle, new_labels_shuffle = shuffle(
             characters, new_labels, random_state=0)
-        x_train, x_test, y_train, y_test = cross_validation.train_test_split(characters_shuffle,
-                                                                             new_labels_shuffle,
-                                                                             test_size=test_size,
-                                                                             random_state=42)
+        x_train, x_test, y_train, y_test = train_test_split(characters_shuffle,
+                                                            new_labels_shuffle,
+                                                            test_size=test_size,
+                                                            random_state=42)
 
     # reshape to (1, 64, 64)
     X_train = x_train.reshape(
