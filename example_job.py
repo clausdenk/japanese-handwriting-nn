@@ -34,12 +34,11 @@ adam = Adam(lr=1e-4)
 model.compile(loss='categorical_crossentropy', optimizer=adam, metrics=['accuracy'])
 
 model.fit(X_train, y_train,
-          epoch=20,
+          epochs=20,
           batch_size=16)
 
 score, acc = model.evaluate(X_test, y_test,
                             batch_size=16,
-                            show_accuracy=True,
                             verbose=0)
 print ("Training size: ", X_train.shape[0])
 print ("Test size: ", X_test.shape[0])

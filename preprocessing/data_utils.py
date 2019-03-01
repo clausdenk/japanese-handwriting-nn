@@ -6,7 +6,7 @@ import numpy as np
 from PIL import Image, ImageEnhance
 
 # Specify the path to the ETL character database files
-ETL_PATH = '/home/claus/dev/python/japanese-handwriting-nn/ETLC'
+ETL_PATH = 'ETLC'
 
 
 def read_record(database, f):
