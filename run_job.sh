@@ -34,12 +34,13 @@ if [[ "$HOSTNAME" == "ip-"* ]]; then
     fi
 fi
 # run job
-RES=$(python example_job.py &> output.txt)
+python example_job.py &> output.txt
+retVal=$?
 # on aws ..
 if [[ "$HOSTNAME" == "ip-"* ]]; then
     aws s3 cp output.txt ${S3_BUCKET}/${OUTPUT_TXT} 
     # save to s3 if terminated normally
-    if [ $RES -eq 0 ]; then
+    if [ $retVal -eq 0 ]; then
         echo "saving weights to ${S3_BUCKET}/${WEIGHTS_OUT}"
         aws s3 cp weights/weights_out.h5 "${S3_BUCKET}/${WEIGHTS_OUT}" 
     else

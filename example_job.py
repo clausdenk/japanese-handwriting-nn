@@ -12,7 +12,7 @@ from keras.optimizers import Adam
 
 def load_model_weights(name, model):
     try:
-        model.load_weights('weights/weights_in.h5')
+        model.load_weights(name)
     except:
         print("Can't load weights!")
 
