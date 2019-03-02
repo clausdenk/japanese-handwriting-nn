@@ -8,7 +8,8 @@
   connection: local
   vars:
       region:  eu-west-1 # Ireland
-      instance_type: p2.xlarge
+      instance_type: t2.large
+      max_spot_price: 0.031
       name_tag: deep # instances will be tagged wirh {name_tag}00 etc
       image: ami-0e9085a8d461c2d01 # deep learning ami in eu-west-1
       key_name: new_europe_key # pem file name
@@ -17,7 +18,7 @@
 
   - name: Launch spot instance
     ec2:
-      spot_price: 0.3
+      spot_price: "{{ max_spot_price }}"
       key_name: "{{ key_name }}"
       instance_type: "{{ instance_type }}"
       instance_profile_name: s3FullAccess
