@@ -1,18 +1,20 @@
 ---
 # This ansible playbook will launch a deep learning ami as spot instance on aws, download 
-# code from github, get data from s3, run the learning, save data to s3
-# and stop the instance
+# this repo from github to the instance and run run_all.sh which in turn starts run_job.sh. Outputs 
+# run_job.out.txt and output.txt as well as weights are saved to s3. When the job is done,
+# run_all.sh shuts the instance down which will also terminate it automatically
 - name: Launch instance on AWS
   hosts: localhost
   gather_facts: false
   connection: local
   vars:
+      # CONFIGURE YOUR INSTANCE HERE:
       region:  eu-west-1 # Ireland
-      instance_type: t2.large
+      instance_type: t2.large #p2.xlarge
       max_spot_price: 0.031
       name_tag: deep # instances will be tagged wirh {name_tag}00 etc
       image: ami-0e9085a8d461c2d01 # deep learning ami in eu-west-1
-      key_name: new_europe_key # pem file name
+      key_name: new_europe_key # key file name for ssh
 
   tasks:
 
@@ -65,5 +67,3 @@
     args:
       chdir: ~/japanese-handwriting-nn
     register: res
-
- 

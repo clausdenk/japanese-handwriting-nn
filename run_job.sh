@@ -2,16 +2,18 @@
 #
 # This script runs the complete learning job
 #
-# names of files in s3 bucket:
+# CONFIGURE YOUR INPUT AND OUTPUT FILES ON S3 HERE:
 export WEIGHTS_IN=M16-hiragana_weights.h5
 export WEIGHTS_OUT=M16-hiragana_weights_out.h5
+export OUTPUT_TXT=output.txt
+export S3_BUCKET=s3://clausdata   # include dir, no trailing /
 
-# on aws set environment and get data from s3
+# on aws, set environment and get data from s3
 if [[ "$HOSTNAME" == "ip-"* ]]; then
     source activate tensorflow_p36
 
     # get ETLC data
-    aws s3 cp "s3://clausdata/ETLC.zip" ETLC.zip
+    aws s3 cp "${S3_BUCKET}/ETLC.zip" ETLC.zip
     retVal=$?
     if [ $retVal -ne 0 ]; then
         echo "Error getting ETLC.zip from s3"
@@ -22,25 +24,25 @@ if [[ "$HOSTNAME" == "ip-"* ]]; then
     # make weights dir
     mkdir -p weights
     # copy weights from s3 if they exist
-    aws s3 ls "s3://clausdata/${WEIGHTS_IN}"
+    aws s3 ls "${S3_BUCKET}/${WEIGHTS_IN}"
     retVal=$?
     if [ $retVal -eq 0 ]; then
-        echo "Using existing weights ${WEIGHTS_IN} from s3"
-        aws s3 cp "s3://clausdata/${WEIGHTS_IN}" weights/weights_in.h5
+        echo "Using existing weights ${S3_BUCKET}/${WEIGHTS_IN} from s3"
+        aws s3 cp "${S3_BUCKET}/${WEIGHTS_IN}" weights/weights_in.h5
     else
-        echo "Weights ${WEIGHTS_IN} not found on s3"
+        echo "Weights ${S3_BUCKET}/${WEIGHTS_IN} not found on s3"
     fi
 fi
 # run job
 RES=$(python example_job.py &> output.txt)
 # on aws ..
 if [[ "$HOSTNAME" == "ip-"* ]]; then
-    aws s3 cp output.txt s3://clausdata/output.txt 
+    aws s3 cp output.txt ${S3_BUCKET}/${OUTPUT_TXT} 
     # save to s3 if terminated normally
     if [ $RES -eq 0 ]; then
-        echo "saving weights ${WEIGHTS_OUT} to s3..."
-        aws s3 cp weights/weights_out.h5 "s3://clausdata/${WEIGHTS_OUT}" 
+        echo "saving weights to ${S3_BUCKET}/${WEIGHTS_OUT}"
+        aws s3 cp weights/weights_out.h5 "${S3_BUCKET}/${WEIGHTS_OUT}" 
     else
-        echo "Error running job, check output.txt on s3"
+        echo "Error running job, check ${S3_BUCKET}/${OUTPUT_TXT} on s3"
     fi
 fi
