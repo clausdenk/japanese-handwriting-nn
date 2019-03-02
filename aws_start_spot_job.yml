@@ -1,0 +1,69 @@
+---
+# This ansible playbook will launch a deep learning ami as spot instance on aws, download 
+# code from github, get data from s3, run the learning, save data to s3
+# and stop the instance
+- name: Launch instance on AWS
+  hosts: localhost
+  gather_facts: false
+  connection: local
+  vars:
+      region:  eu-west-1 # Ireland
+      instance_type: t2.large
+      max_spot_price: 0.031
+      name_tag: deep # instances will be tagged wirh {name_tag}00 etc
+      image: ami-0e9085a8d461c2d01 # deep learning ami in eu-west-1
+      key_name: new_europe_key # pem file name
+
+  tasks:
+
+  - name: Launch spot instance
+    ec2:
+      spot_price: "{{ max_spot_price }}"
+      key_name: "{{ key_name }}"
+      instance_type: "{{ instance_type }}"
+      instance_profile_name: s3FullAccess
+      instance_initiated_shutdown_behavior: terminate
+      instance_tags:  
+        Name: "{{ name_tag }}" 
+      image: "{{ image }}"
+      wait: yes
+      count: 1
+      region: "{{ region }}"
+    register: ec2
+  
+  - name: Add instances to in-memory host group "launched"
+    add_host:
+      hostname: "{{ item.public_dns_name }}"
+      groupname: launched
+    with_items: "{{ ec2.instances }}"
+    
+  - name: Wait for SSH to come up
+    wait_for:
+      host: "{{ item.public_dns_name }}"
+      port: 22
+      delay: 10
+      timeout: 320
+      state: started
+    with_items: "{{ ec2.instances }}"
+
+  - name: Print DNS
+    debug:
+      var: item.public_dns_name
+    with_items: "{{ ec2.instances }}"
+
+- name: Get code and data
+  hosts: launched
+  tasks:
+
+  - name: Get code from github
+    command: git clone https://github.com/clausdenk/japanese-handwriting-nn.git
+    args:
+      creates: ~/japanese-handwriting-nn
+
+  - name: run all jobs
+    shell: source run_all.sh&
+    args:
+      chdir: ~/japanese-handwriting-nn
+    register: res
+
+ 
