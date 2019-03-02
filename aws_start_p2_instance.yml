@@ -59,11 +59,10 @@
     args:
       creates: ~/japanese-handwriting-nn
 
-  # - name: run job
-  #   shell: source run_job.sh &> run_job.out&
-  #   args:
-  #     chdir: ~/japanese-handwriting-nn
-  #     creates: ~/japanese-handwriting-nn/run_job.out
-  #   register: res
+  - name: run all jobs
+    shell: source run_all.sh&
+    args:
+      chdir: ~/japanese-handwriting-nn
+    register: res
 
  

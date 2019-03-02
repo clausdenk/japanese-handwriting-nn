@@ -13,7 +13,7 @@ if [[ "$HOSTNAME" == "ip-"* ]]; then
     # get ETLC data
     aws s3 cp "s3://clausdata/ETLC.zip" ETLC.zip
     retVal=$?
-    if [ $retVal -ne 1 ]; then
+    if [ "$retVal" -ne 0 ]; then
         echo "Error getting ETLC.zip from s3"
         exit 1
     fi
@@ -24,7 +24,7 @@ if [[ "$HOSTNAME" == "ip-"* ]]; then
     # copy weights from s3 if they exist
     aws s3 ls "s3://clausdata/{$WEIGHTS_IN}"
     retVal=$?
-    if [ $retVal -eq 0 ]; then
+    if [ "$retVal" -eq 0 ]; then
         echo "Using existing weights ${WEIGHTS_IN} from s3"
         aws s3 cp "s3://clausdata/${WEIGHTS_IN}" weights/weights_in.h5
     else
@@ -35,7 +35,6 @@ fi
 RES=$(python example_job.py &> output.txt)
 # on aws ..
 if [[ "$HOSTNAME" == "ip-"* ]]; then
-    aws s3 cp run_job.out s3://clausdata/run_job.out 
     aws s3 cp output.txt s3://clausdata/output.txt 
     # save to s3 if terminated normally
     if [ "$RES" -eq 0 ]; then
@@ -44,6 +43,4 @@ if [[ "$HOSTNAME" == "ip-"* ]]; then
     else
         echo "Error running job, check output.txt on s3"
     fi
-    # stop (and possibly terminate) instance
-    sudo halt
 fi
