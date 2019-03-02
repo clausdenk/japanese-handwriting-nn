@@ -34,7 +34,7 @@ if [[ "$HOSTNAME" == "ip-"* ]]; then
     fi
 fi
 # run job
-python example_job.py &> output.txt
+time python example_job.py &> output.txt
 retVal=$?
 # on aws ..
 if [[ "$HOSTNAME" == "ip-"* ]]; then
