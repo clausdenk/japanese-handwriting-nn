@@ -13,7 +13,7 @@ if [[ "$HOSTNAME" == "ip-"* ]]; then
     source activate tensorflow_p36
 
     # get ETLC data
-    aws s3 cp "${S3_BUCKET}/ETLC.zip" ETLC.zip
+    aws s3 cp "${S3_BUCKET}/ETLC.zip" ETLC.zip --quiet
     retVal=$?
     if [ $retVal -ne 0 ]; then
         echo "Error getting ETLC.zip from s3"
@@ -28,7 +28,7 @@ if [[ "$HOSTNAME" == "ip-"* ]]; then
     retVal=$?
     if [ $retVal -eq 0 ]; then
         echo "Using existing weights ${S3_BUCKET}/${WEIGHTS_IN} from s3"
-        aws s3 cp "${S3_BUCKET}/${WEIGHTS_IN}" weights/weights_in.h5
+        aws s3 cp "${S3_BUCKET}/${WEIGHTS_IN}" weights/weights_in.h5 --quiet
     else
         echo "Weights ${S3_BUCKET}/${WEIGHTS_IN} not found on s3"
     fi
@@ -38,7 +38,7 @@ time python example_job.py &> output.txt
 retVal=$?
 # on aws ..
 if [[ "$HOSTNAME" == "ip-"* ]]; then
-    aws s3 cp output.txt ${S3_BUCKET}/${OUTPUT_TXT} 
+    aws s3 cp output.txt ${S3_BUCKET}/${OUTPUT_TXT} --quiet
     # save to s3 if terminated normally
     if [ $retVal -eq 0 ]; then
         echo "saving weights to ${S3_BUCKET}/${WEIGHTS_OUT}"

@@ -4,7 +4,7 @@ import h5py
 import numpy as np
 
 from preprocessing.make_keras_input import data
-from models import M16
+from models import M7_1
 from keras import backend as K
 from keras.optimizers import Adam 
 
@@ -46,7 +46,7 @@ adam = Adam(lr=1e-4)
 model.compile(loss='categorical_crossentropy', optimizer=adam, metrics=['accuracy'])
 
 model.fit(X_train, y_train,
-          epochs=1,
+          epochs=20,
           batch_size=16)
 
 score, acc = model.evaluate(X_test, y_test,
