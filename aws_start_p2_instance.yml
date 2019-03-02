@@ -8,7 +8,7 @@
   connection: local
   vars:
       region:  eu-west-1 # Ireland
-      instance_type: t2.micro
+      instance_type: p2.xlarge
       name_tag: deep # instances will be tagged wirh {name_tag}00 etc
       image: ami-0e9085a8d461c2d01 # deep learning ami in eu-west-1
       key_name: new_europe_key # pem file name
@@ -17,7 +17,7 @@
 
   - name: Launch spot instance
     ec2:
-      spot_price: 0.004
+      spot_price: 0.3
       key_name: "{{ key_name }}"
       instance_type: "{{ instance_type }}"
       instance_profile_name: s3FullAccess
@@ -59,11 +59,11 @@
     args:
       creates: ~/japanese-handwriting-nn
 
-  - name: run job
-    shell: source run_job.sh &> run_job.out&
-    args:
-      chdir: ~/japanese-handwriting-nn
-      creates: ~/japanese-handwriting-nn/run_job.out
-    register: res
+  # - name: run job
+  #   shell: source run_job.sh &> run_job.out&
+  #   args:
+  #     chdir: ~/japanese-handwriting-nn
+  #     creates: ~/japanese-handwriting-nn/run_job.out
+  #   register: res
 
  

@@ -12,7 +12,8 @@ if [[ "$HOSTNAME" == "ip-"* ]]; then
 
     # get ETLC data
     aws s3 cp "s3://clausdata/ETLC.zip" ETLC.zip
-    if [ $? -eq 0 ]; then
+    retVal=$?
+    if [ $retVal -ne 1 ]; then
         echo "Error getting ETLC.zip from s3"
         exit 1
     fi
@@ -22,7 +23,8 @@ if [[ "$HOSTNAME" == "ip-"* ]]; then
     mkdir -p weights
     # copy weights from s3 if they exist
     aws s3 ls "s3://clausdata/{$WEIGHTS_IN}"
-    if [ $? -eq 0 ]; then
+    retVal=$?
+    if [ $retVal -eq 0 ]; then
         echo "Using existing weights ${WEIGHTS_IN} from s3"
         aws s3 cp "s3://clausdata/${WEIGHTS_IN}" weights/weights_in.h5
     else
