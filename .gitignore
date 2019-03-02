@@ -1,3 +1,7 @@
 ETLC
 ETLC.zip
+weights
 __pycache__
+*.retry
+run_job.out
+jobs
