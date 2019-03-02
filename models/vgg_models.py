@@ -455,7 +455,7 @@ def VGG_vis(weights_path=None, input_shape=(1, 64, 64), n_output=None):
     return model
 
 
-def M16(weights_path='weights/keras_VGG-16-katakana_weights.h5',
+def M16(weights_path=None,
         input_shape=(1, 64, 64),
         n_output=None,
         freeze_layers=False):

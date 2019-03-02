@@ -25,7 +25,7 @@ def save_model_weights(name, model):
     pass
 
 img_rows, img_cols = 64, 64
-X_train, y_train, X_test, y_test = data(mode='kanji')
+X_train, y_train, X_test, y_test = data(mode='hiragana')
 n_output = y_train.shape[1]
 
 if K.image_dim_ordering() == 'th':
@@ -38,7 +38,7 @@ else:
     input_shape = (img_rows, img_cols, 1)
 
 print ("using shape",input_shape)
-model = M7_1(n_output=n_output, input_shape=input_shape)
+model = M16(n_output=n_output, input_shape=input_shape)
 
 load_model_weights('weights/weights_in.h5', model)
 
