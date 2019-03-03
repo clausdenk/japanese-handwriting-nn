@@ -27,7 +27,7 @@ def data(database='ETL8B2', writers_per_char=160, mode='all', get_scripts=False,
     """
     size = (64, 64)
     if mode in ('kanji', 'all'):
-        for i in range(1, 2):
+        for i in range(1, 4):
             if database == 'ETL8B2':
                 writers_per_char = 160
                 if i == 3:
