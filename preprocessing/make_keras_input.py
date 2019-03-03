@@ -9,7 +9,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
 
 
-def data(writers_per_char=160, mode='all', get_scripts=False, test_size=0.2):
+def data(database='ETL8B2', writers_per_char=160, mode='all', get_scripts=False, test_size=0.2, etl_version=8):
     """
     Load the characters into a format suitable for Keras
 
@@ -27,23 +27,29 @@ def data(writers_per_char=160, mode='all', get_scripts=False, test_size=0.2):
     """
     size = (64, 64)
     if mode in ('kanji', 'all'):
-        for i in range(1, 4):
-            if i == 3:
-                max_records = 315
-            else:
-                max_records = 319
+        for i in range(1, 2):
+            if database == 'ETL8B2':
+                writers_per_char = 160
+                if i == 3:
+                    max_records = 315  # should be 316?
+                else:
+                    max_records = 319  # should be 320?
 
-            if i != 1:
+                if i != 1:
+                    start_record = 0
+                else:
+                    start_record = 75   # i != 1: 2,3 skip first 75?
+            elif database == 'ETL9B':
+                writers_per_char = 40
+                max_records = 3036
                 start_record = 0
-            else:
-                start_record = 75
 
             if get_scripts:
                 chars, labs, spts = get_ETL_data(
-                    i, range(start_record, max_records), writers_per_char, get_scripts=True)
+                    i, range(start_record, max_records), writers_per_char, database, get_scripts=True)
             else:
                 chars, labs = get_ETL_data(
-                    i, range(start_record, max_records), writers_per_char)
+                    i, range(start_record, max_records), writers_per_char, database)
 
             if i == 1 and mode in ('kanji', 'all'):
                 characters = chars
@@ -60,10 +66,10 @@ def data(writers_per_char=160, mode='all', get_scripts=False, test_size=0.2):
         max_records = 75
         if get_scripts:
             chars, labs, spts = get_ETL_data(
-                1, range(0, max_records), writers_per_char, get_scripts=True)
+                1, range(0, max_records), writers_per_char, database, get_scripts=True)
         else:
             chars, labs = get_ETL_data(
-                1, range(0, max_records), writers_per_char)
+                1, range(0, max_records), writers_per_char, database)
 
         if mode == 'hiragana':
             characters = chars

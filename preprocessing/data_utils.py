@@ -13,7 +13,7 @@ def read_record(database, f):
     """Load image from ETL binary
 
     Args:
-        database (string):  'ETL8B2' or 'ETL1C'. Read the ETL documentation to add support
+        database (string):  'ETL8B2' or 'ETL9B' or 'ETL1C'. Read the ETL documentation to add support
             for other datasets.
         f (opened file): binary file
 
@@ -23,8 +23,17 @@ def read_record(database, f):
 
     W, H = 64, 63
     if database == 'ETL8B2':
+      
         s = f.read(512)
         r = struct.unpack('>2H4s504s', s)
+        i1 = Image.frombytes('1', (W, H), r[3], 'raw')
+        img_out = r + (i1,)
+        return img_out
+
+    elif database == 'ETL9B':
+      
+        s = f.read(576)
+        r = struct.unpack('>2H4s504s64x', s)
         i1 = Image.frombytes('1', (W, H), r[3], 'raw')
         img_out = r + (i1,)
         return img_out
@@ -79,6 +88,8 @@ def get_ETL_data(dataset, categories, writers_per_char,
 
     if database == 'ETL8B2':
         name_base = ETL_PATH + '/ETL8B/ETL8B2C'
+    elif database == 'ETL9B':
+        name_base = ETL_PATH + '/ETL9B/ETL9B_'
     elif database == 'ETL1C':
         name_base = ETL_PATH + '/ETL1/ETL1C_'
 
@@ -101,6 +112,8 @@ def get_ETL_data(dataset, categories, writers_per_char,
         with open(filename, 'rb') as f:
             if database == 'ETL8B2':
                 f.seek((id_category * 160 + 1) * 512)
+            elif database == 'ETL9B':
+                f.seek((id_category * 40 + 1) * 576)
             elif database == 'ETL1C':
                 f.seek((id_category * 1411 + 1) * 2052)
 
