@@ -6,7 +6,9 @@ named "M7_1" in the original repo ("M7_1" shows up twice).
 
 I have also addded explicit initializations to be of type "he_normal" as this seems to be what Tsai is using in 
 his paper. A LearningRateScheduler has been added to reduce the learning rate every 20 epochs by a factor
-of 0.1 as described in the paper.
+of 0.1 as described in the paper. Just a few models use batch normalization in the original repo, the paper seems
+to suggest that batch normlization has been used in every model ("with batch normalization [8] after each weight
+layer and before each activation layer").
 
 There is an [ansible playbook](aws_start_spot_job.yml) to run a job on a spot instance on AWS. 
 Input/output files are stored on a bucket in s3, adapt files [run_all.sh] and [run_job.sh]. 

@@ -9,8 +9,6 @@ from keras import backend as K
 from keras.optimizers import Adam 
 from keras import callbacks
 
-
-
 def load_model_weights(name, model):
     try:
         model.load_weights(name)
@@ -26,19 +24,9 @@ def save_model_weights(name, model):
     pass
 
 img_rows, img_cols = 64, 64
-X_train, y_train, X_test, y_test = data(mode='kanji')
+X_train, y_train, X_test, y_test, input_shape = data(mode='kanji')
 n_output = y_train.shape[1]
 
-if K.image_dim_ordering() == 'th':
-    X_train = X_train.reshape(X_train.shape[0], 1, img_rows, img_cols)
-    X_test = X_test.reshape(X_test.shape[0], 1, img_rows, img_cols)
-    input_shape = (1, img_rows, img_cols)
-else:
-    X_train = X_train.reshape(X_train.shape[0], img_rows, img_cols, 1)
-    X_test = X_test.reshape(X_test.shape[0], img_rows, img_cols, 1)
-    input_shape = (img_rows, img_cols, 1)
-
-print ("using shape",input_shape)
 model = M7_1(n_output=n_output, input_shape=input_shape)
 
 load_model_weights('weights/weights_in.h5', model)
@@ -48,7 +36,7 @@ model.compile(loss='categorical_crossentropy', optimizer=adam, metrics=['accurac
 
 def lr_scheduler(epoch, lr):
     decay_rate = 0.1
-    decay_step = 20
+    decay_step = 4
     if epoch % decay_step == 0 and epoch:
         return lr * decay_rate
     return lr
@@ -57,7 +45,7 @@ callbacks = [
     callbacks.LearningRateScheduler(lr_scheduler, verbose=1)
 ]
 
-model.fit(X_train, y_train, initial_epoch=5, epochs=10, batch_size=16, callbacks=callbacks) #  verbose=2
+model.fit(X_train, y_train, epochs=10, batch_size=16, callbacks=callbacks) #  verbose=2
 
 score, acc = model.evaluate(X_test, y_test, batch_size=16, verbose=0)
 

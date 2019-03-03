@@ -2,6 +2,7 @@
 
 import numpy as np
 
+from keras import backend as K
 from keras.utils import np_utils
 from preprocessing.data_utils import get_ETL_data
 from sklearn import datasets, metrics
@@ -124,14 +125,24 @@ def data(database='ETL8B2', writers_per_char=160, mode='all', get_scripts=False,
                                                             test_size=test_size,
                                                             random_state=42)
 
-    # reshape to (1, 64, 64)
-    X_train = x_train.reshape(
-        (x_train.shape[0], 1, x_train.shape[1], x_train.shape[2]))
-    X_test = x_test.reshape(
-        (x_test.shape[0], 1, x_test.shape[1], x_test.shape[2]))
+    # reshape to (1, 64, 64) or (64, 64, 1)
+    if K.image_dim_ordering() == 'th': # theano ordering
+        print ("use theano ordering")
+        x_train = x_train.reshape(
+            (x_train.shape[0], 1, x_train.shape[1], x_train.shape[2]))
+        x_test = x_test.reshape(
+            (x_test.shape[0], 1, x_test.shape[1], x_test.shape[2]))
+        input_shape = (1, x_test.shape[1], x_test.shape[2])
+    else: # tensorflow
+        print ("use tensorflow ordering")
+        x_train = x_train.reshape(
+            (x_train.shape[0], x_train.shape[1], x_train.shape[2], 1))
+        x_test = x_test.reshape(
+            (x_test.shape[0], x_test.shape[1], x_test.shape[2], 1))
+        input_shape = (x_test.shape[1], x_test.shape[2], 1)
 
     # convert class vectors to binary class matrices
     nb_classes = len(unique_labels)
-    Y_train = np_utils.to_categorical(y_train, nb_classes)
-    Y_test = np_utils.to_categorical(y_test, nb_classes)
-    return X_train, Y_train, X_test, Y_test
+    y_train = np_utils.to_categorical(y_train, nb_classes)
+    y_test = np_utils.to_categorical(y_test, nb_classes)
+    return x_train, y_train, x_test, y_test, input_shape
