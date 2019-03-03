@@ -4,7 +4,7 @@ import h5py
 import numpy as np
 
 from preprocessing.make_keras_input import data
-from models import M7_1
+from models import M7_1_7
 from keras.optimizers import Adam 
 from keras import callbacks
 
@@ -26,7 +26,7 @@ img_rows, img_cols = 64, 64
 X_train, y_train, X_test, y_test, input_shape = data(mode='kanji')
 n_output = y_train.shape[1]
 
-model = M7_1(n_output=n_output, input_shape=input_shape)
+model = M7_1_7(n_output=n_output, input_shape=input_shape)
 
 load_model_weights('weights/weights_in.h5', model)
 
