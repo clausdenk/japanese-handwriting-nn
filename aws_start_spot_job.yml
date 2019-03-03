@@ -10,8 +10,8 @@
   vars:
       # CONFIGURE YOUR INSTANCE HERE:
       region:  eu-west-1 # Ireland
-      instance_type: t2.xlarge #p2.xlarge 0.3 t2.xlarge 0.061
-      max_spot_price: 0.061
+      instance_type: p2.xlarge #p2.xlarge 0.3 t2.xlarge 0.061
+      max_spot_price: 0.3
       name_tag: deep # instances will be tagged wirh {name_tag}00 etc
       image: ami-0e9085a8d461c2d01 # deep learning ami in eu-west-1
       key_name: new_europe_key # key file name for ssh
@@ -64,7 +64,7 @@
       creates: ~/japanese-handwriting-nn
 
   - name: Run job(s) in background
-    shell: cd japanese-handwriting-nn; ./run_all.sh&
+    shell: cd japanese-handwriting-nn; nohup ./run_all.sh&
     args:
       chdir: ~/japanese-handwriting-nn
       executable: /bin/bash
