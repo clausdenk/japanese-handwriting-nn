@@ -63,8 +63,16 @@
     args:
       creates: ~/japanese-handwriting-nn
 # there seem to be problems finding "source" which is needed for activation of environment
+
   - name: Run job(s) in background
-    shell: ./run_all.sh&
+    shell: source activate tensorflow_p36
+    args:
+      chdir: ~/japanese-handwriting-nn
+      executable: /bin/bash
+    register: res
+
+  - name: Run job(s) in background
+    shell: source activate tensorflow_p36; ./run_all.sh&
     args:
       chdir: ~/japanese-handwriting-nn
       executable: /bin/bash

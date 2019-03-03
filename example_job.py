@@ -45,13 +45,13 @@ load_model_weights('weights/weights_in.h5', model)
 adam = Adam(lr=1e-4)
 model.compile(loss='categorical_crossentropy', optimizer=adam, metrics=['accuracy'])
 
-model.fit(X_train, y_train, epochs=5, batch_size=16, verbose=2)
+model.fit(X_train, y_train, epochs=5, batch_size=16) #  verbose=2
 
-score, acc = model.evaluate(X_test, y_test,
-                            batch_size=16,
-                            verbose=0)
+score, acc = model.evaluate(X_test, y_test, batch_size=16, verbose=0)
+
 print ("Training size: ", X_train.shape[0])
 print ("Test size: ", X_test.shape[0])
 print ("Test Score: ", score)
 print ("Test Accuracy: ", acc)
+
 save_model_weights('weights/weights_out.h5', model)
