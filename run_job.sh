@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# This script runs the complete learning job
+# This script runs the complete learning job, getting data and weights from s3 and saving after rnu
 #
 # CONFIGURE YOUR INPUT AND OUTPUT FILES ON S3 HERE:
 export WEIGHTS_IN=M71-kanji_weights_out.h5
@@ -9,8 +9,7 @@ export OUTPUT_TXT=output.txt
 export S3_BUCKET=s3://clausdata   # include dir, no trailing /
 
 # on aws, set environment and get data from s3
-if [[ "$HOSTNAME" == "ip-"* ]]; then
-    source activate tensorflow_p36
+if [[ $(hostname) == "ip-"* ]]; then
 
     # get ETLC data
     aws s3 cp "${S3_BUCKET}/ETLC.zip" ETLC.zip --quiet
@@ -37,7 +36,7 @@ fi
 time python example_job.py &> output.txt
 retVal=$?
 # on aws ..
-if [[ "$HOSTNAME" == "ip-"* ]]; then
+if [[ $(hostname) == "ip-"* ]]; then
     aws s3 cp output.txt ${S3_BUCKET}/${OUTPUT_TXT} --quiet
     # save to s3 if terminated normally
     if [ $retVal -eq 0 ]; then
