@@ -66,38 +66,24 @@ def M7_1(input_shape=(1, 64, 64), n_output=None, batch_norm=False):
     model = Sequential()
 
     model.add(Conv2D(64, (3, 3), padding='same', input_shape=input_shape, kernel_initializer='he_normal'))
-    if batch_norm:
-        model.add(BatchNormalization())
     model.add(Activation('relu'))
     model.add(MaxPooling2D(pool_size=(2, 2)))
 
     model.add(Conv2D(128, (3, 3), padding='same', kernel_initializer='he_normal'))
-    if batch_norm:
-        model.add(BatchNormalization())
     model.add(Activation('relu'))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Dropout(0.25))
 
-    # model.add(Conv2D(256, (3, 3), padding='same', kernel_initializer='he_normal'))
-    # if batch_norm:
-    #     model.add(BatchNormalization())
-    # model.add(Activation('relu'))
-
-    # model.add(Conv2D(256, (3, 3), padding='same', kernel_initializer='he_normal'))
-    # if batch_norm: 
-    #     model.add(BatchNormalization())
-    # model.add(Activation('relu'))
-
-    # model.add(MaxPooling2D(pool_size=(2, 2)))
-    # model.add(Dropout(0.25))
+    model.add(Conv2D(256, (3, 3), padding='same', kernel_initializer='he_normal'))
+    model.add(Activation('relu'))
+    model.add(Conv2D(256, (3, 3), padding='same', kernel_initializer='he_normal'))
+    model.add(Activation('relu'))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(Dropout(0.25))
 
     model.add(Conv2D(512, (3, 3), padding='same', kernel_initializer='he_normal'))
-    if batch_norm: 
-        model.add(BatchNormalization())
     model.add(Activation('relu'))
     model.add(Conv2D(512, (3, 3), padding='same', kernel_initializer='he_normal'))
-    if batch_norm: 
-        model.add(BatchNormalization())
     model.add(Activation('relu'))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Dropout(0.25))
