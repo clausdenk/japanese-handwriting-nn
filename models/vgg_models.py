@@ -62,7 +62,7 @@ def M6_2(input_shape=(1, 64, 64), n_output=None):
     return model
 
 
-def M7_1(input_shape=(1, 64, 64), n_output=None, batch_norm=False):
+def M7_1(input_shape=(1, 64, 64), n_output=None):
     model = Sequential()
 
     model.add(Conv2D(64, (3, 3), padding='same', input_shape=input_shape, kernel_initializer='he_normal'))

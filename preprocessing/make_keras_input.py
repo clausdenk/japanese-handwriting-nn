@@ -128,18 +128,18 @@ def data(database='ETL8B2', writers_per_char=160, mode='all', get_scripts=False,
     # reshape to (1, 64, 64) or (64, 64, 1)
     if backend.image_dim_ordering() == 'th': # theano ordering
         print ("use theano ordering")
+        input_shape = (1, x_test.shape[1], x_test.shape[2])
         x_train = x_train.reshape(
             (x_train.shape[0], 1, x_train.shape[1], x_train.shape[2]))
         x_test = x_test.reshape(
             (x_test.shape[0], 1, x_test.shape[1], x_test.shape[2]))
-        input_shape = (1, x_test.shape[1], x_test.shape[2])
     else: # tensorflow
         print ("use tensorflow ordering")
+        input_shape = (x_test.shape[1], x_test.shape[2], 1)
         x_train = x_train.reshape(
             (x_train.shape[0], x_train.shape[1], x_train.shape[2], 1))
         x_test = x_test.reshape(
             (x_test.shape[0], x_test.shape[1], x_test.shape[2], 1))
-        input_shape = (x_test.shape[1], x_test.shape[2], 1)
 
     # convert class vectors to binary class matrices
     nb_classes = len(unique_labels)
