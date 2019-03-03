@@ -5,7 +5,6 @@ import numpy as np
 
 from preprocessing.make_keras_input import data
 from models import M7_1
-from keras import backend as K
 from keras.optimizers import Adam 
 from keras import callbacks
 

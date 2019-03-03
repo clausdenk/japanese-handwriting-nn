@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from keras import backend as K
+from keras import backend
 from keras.utils import np_utils
 from preprocessing.data_utils import get_ETL_data
 from sklearn import datasets, metrics
@@ -28,7 +28,7 @@ def data(database='ETL8B2', writers_per_char=160, mode='all', get_scripts=False,
     """
     size = (64, 64)
     if mode in ('kanji', 'all'):
-        for i in range(1, 4):
+        for i in range(1, 2):
             if database == 'ETL8B2':
                 writers_per_char = 160
                 if i == 3:
@@ -126,7 +126,7 @@ def data(database='ETL8B2', writers_per_char=160, mode='all', get_scripts=False,
                                                             random_state=42)
 
     # reshape to (1, 64, 64) or (64, 64, 1)
-    if K.image_dim_ordering() == 'th': # theano ordering
+    if backend.image_dim_ordering() == 'th': # theano ordering
         print ("use theano ordering")
         x_train = x_train.reshape(
             (x_train.shape[0], 1, x_train.shape[1], x_train.shape[2]))
