@@ -64,7 +64,7 @@
       creates: ~/japanese-handwriting-nn
 
   - name: Run job(s) in background
-    shell: ./run_all.sh&
+    shell: cd japanese-handwriting-nn; ./run_all.sh&
     args:
       chdir: ~/japanese-handwriting-nn
       executable: /bin/bash
