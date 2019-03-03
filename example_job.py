@@ -33,20 +33,20 @@ load_model_weights('weights/weights_in.h5', model)
 adam = Adam(lr=1e-4)
 model.compile(loss='categorical_crossentropy', optimizer=adam, metrics=['accuracy'])
 
-# def lr_scheduler(epoch, lr):
-#     decay_rate = 0.1
-#     decay_step = 4
-#     if epoch % decay_step == 0 and epoch:
-#         return lr * decay_rate
-#     return lr
+def lr_scheduler(epoch, lr):
+    decay_rate = 0.1
+    decay_step = 4
+    if epoch % decay_step == 0 and epoch:
+        return lr * decay_rate
+    return lr
 
-# callbacks = [
-#     callbacks.LearningRateScheduler(lr_scheduler, verbose=1)
-# ]
+callbacks = [
+    callbacks.LearningRateScheduler(lr_scheduler, verbose=1)
+]
 
 model.summary()
 
-model.fit(X_train, y_train, epochs=10, batch_size=16) #  verbose=2 callbacks=callbacks
+model.fit(X_train, y_train, epochs=10, batch_size=16, callbacks=callbacks) #  verbose=2 
 
 score, acc = model.evaluate(X_test, y_test, batch_size=16, verbose=0)
 

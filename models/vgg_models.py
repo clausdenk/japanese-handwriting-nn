@@ -74,12 +74,12 @@ def M7_1(input_shape=(1, 64, 64), n_output=None):
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Dropout(0.25))
 
-    model.add(Conv2D(256, (3, 3), padding='same', kernel_initializer='he_normal'))
-    model.add(Activation('relu'))
-    model.add(Conv2D(256, (3, 3), padding='same', kernel_initializer='he_normal'))
-    model.add(Activation('relu'))
-    model.add(MaxPooling2D(pool_size=(2, 2)))
-    model.add(Dropout(0.25))
+    # model.add(Conv2D(256, (3, 3), padding='same', kernel_initializer='he_normal'))
+    # model.add(Activation('relu'))
+    # model.add(Conv2D(256, (3, 3), padding='same', kernel_initializer='he_normal'))
+    # model.add(Activation('relu'))
+    # model.add(MaxPooling2D(pool_size=(2, 2)))
+    # model.add(Dropout(0.25))
 
     model.add(Conv2D(512, (3, 3), padding='same', kernel_initializer='he_normal'))
     model.add(Activation('relu'))
