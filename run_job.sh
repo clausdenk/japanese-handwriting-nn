@@ -32,7 +32,10 @@ if [[ $(hostname) == "ip-"* ]]; then
         echo "Weights ${S3_BUCKET}/${WEIGHTS_IN} not found on s3"
     fi
 fi
+
 # run job
+source /home/ubuntu/anaconda3/etc/profile.d/conda.sh
+conda activate tensorflow_p36
 time python example_job.py &> output.txt
 retVal=$?
 # on aws ..
