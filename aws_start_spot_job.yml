@@ -62,9 +62,10 @@
     command: git clone https://github.com/clausdenk/japanese-handwriting-nn.git
     args:
       creates: ~/japanese-handwriting-nn
-
+# there seem to be problems finding "source" which is needed for activation of environment
   - name: Run job(s) in background
     shell: ./run_all.sh&
     args:
       chdir: ~/japanese-handwriting-nn
+      executable: /bin/bash
     register: res
