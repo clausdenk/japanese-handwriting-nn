@@ -72,52 +72,49 @@ def M7_2(weights_path=None, input_shape=(1, 64, 64), n_output=None):
 
 def M13(weights_path=None, input_shape=(1, 64, 64), n_output=None):
     model = Sequential()
-    model.add(Convolution2D(
-        32, 3, 3, border_mode='same', input_shape=input_shape))
+    model.add(Conv2D(32, (3, 3), padding='same', input_shape=input_shape))
     model.add(BatchNormalization())
     model.add(Activation('relu'))
-    model.add(Convolution2D(32, 3, 3))
-    model.add(Activation('relu'))
+
+    model.add(Conv2D(32, (3, 3), padding='same', activation="relu")
     model.add(Dropout(0.5))
 
-    model.add(Convolution2D(64, 3, 3))
+    model.add(Conv2D(64, (3, 3), padding='same')
     model.add(BatchNormalization())
     model.add(Activation('relu'))
-    model.add(Convolution2D(64, 3, 3))
-    model.add(Activation('relu'))
+
+    model.add(Conv2D(64, (3, 3), padding='same', activation="relu")
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Dropout(0.5))
 
-    model.add(Convolution2D(128, 3, 3, border_mode='same'))
+    model.add(Conv2D(128, (3, 3), , padding='same'))
     model.add(BatchNormalization())
     model.add(Activation('relu'))
-    model.add(Convolution2D(128, 3, 3))
-    model.add(Activation('relu'))
+
+    model.add(Conv2D(128, (3, 3), padding='same', activation="relu")
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Dropout(0.5))
 
-    model.add(Convolution2D(256, 3, 3, border_mode='same'))
+    model.add(Conv2D(256, (3, 3), padding='same'))
     model.add(BatchNormalization())
     model.add(Activation('relu'))
-    model.add(Convolution2D(256, 3, 3))
-    model.add(Activation('relu'))
+
+    model.add(Conv2D(256, (3, 3), padding='same', activation="relu")
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Dropout(0.5))
 
-    model.add(Convolution2D(512, 3, 3, border_mode='same'))
+    model.add(Conv2D(512, (3, 3), padding='same'))
     model.add(BatchNormalization())
     model.add(Activation('relu'))
-    model.add(Convolution2D(512, 3, 3))
-    model.add(Activation('relu'))
+
+    model.add(Conv2D(512, (3, 3), padding='same', activation="relu")
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Dropout(0.5))
 
     model.add(Flatten())
-    model.add(Dense(1024))
-    model.add(Activation('relu'))
+    model.add(Dense(1024, activation="relu"))
     model.add(Dropout(0.5))
-    model.add(Dense(1024))
-    model.add(Activation('relu'))
+    model.add(Dense(1024, activation="relu"))
     model.add(Dropout(0.5))
 
     model.add(Dense(n_output))
@@ -129,18 +126,13 @@ def M13(weights_path=None, input_shape=(1, 64, 64), n_output=None):
 
 def M6_1(weights_path=None, input_shape=(1, 64, 64), n_output=None):
     model = Sequential()
-    model.add(Convolution2D(
-        32, 3, 3, border_mode='same', input_shape=input_shape))
-    model.add(Activation('relu'))
-    model.add(Convolution2D(32, 3, 3))
-    model.add(Activation('relu'))
+    model.add(Convolution2D(32, (3, 3), padding='same', activation="relu", input_shape=input_shape))
+    model.add(Convolution2D(32, (3, 3), padding='same', activation="relu")
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Dropout(0.5))
 
-    model.add(Convolution2D(64, 3, 3, border_mode='same'))
-    model.add(Activation('relu'))
-    model.add(Convolution2D(64, 3, 3))
-    model.add(Activation('relu'))
+    model.add(Convolution2D(64, (3, 3), padding='same', activation="relu"))
+    model.add(Convolution2D(64, (3, 3), padding='same', activation="relu")
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Dropout(0.5))
 
