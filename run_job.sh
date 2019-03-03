@@ -3,8 +3,8 @@
 # This script runs the complete learning job
 #
 # CONFIGURE YOUR INPUT AND OUTPUT FILES ON S3 HERE:
-export WEIGHTS_IN=M71-kanji_weights_in.h5
-export WEIGHTS_OUT=M71-kanji_weights_out.h5
+export WEIGHTS_IN=M71-kanji_weights_out.h5
+export WEIGHTS_OUT=M71-kanji_weights_out2.h5
 export OUTPUT_TXT=output.txt
 export S3_BUCKET=s3://clausdata   # include dir, no trailing /
 
