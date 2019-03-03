@@ -44,7 +44,7 @@ callbacks = [
     callbacks.LearningRateScheduler(lr_scheduler, verbose=1)
 ]
 
-model.fit(X_train, y_train, epochs=10, batch_size=16, callbacks=callbacks) #  verbose=2
+model.fit(X_train, y_train, epochs=1, batch_size=16, callbacks=callbacks) #  verbose=2
 
 score, acc = model.evaluate(X_test, y_test, batch_size=16, verbose=0)
 
