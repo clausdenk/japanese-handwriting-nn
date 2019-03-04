@@ -98,7 +98,7 @@ def M7_1_7(input_shape=(1, 64, 64), n_output=None):
 
     return model
 
-def M7_1(input_shape=(1, 64, 64), n_output=None):
+def M7_1_9(input_shape=(1, 64, 64), n_output=None):
     model = Sequential()
 
     model.add(Conv2D(64, (3, 3), padding='same',
@@ -143,30 +143,30 @@ def M7_1(input_shape=(1, 64, 64), n_output=None):
 def M7_2(input_shape=(1, 64, 64), n_output=None):
     model = Sequential()
 
-    model.add(Conv2D(64, (3, 3), padding='same', input_shape=input_shape))
+    model.add(Conv2D(64, (3, 3), padding='same', input_shape=input_shape, kernel_initializer='he_normal'))
     model.add(Activation('relu'))
     model.add(MaxPooling2D(pool_size=(2, 2)))
 
-    model.add(Conv2D(128, (3, 3), padding='same'))
-    model.add(Activation('relu'))
-    model.add(MaxPooling2D(pool_size=(2, 2)))
-    model.add(Dropout(0.25))
-
-    model.add(Conv2D(192, (3, 3), padding='same'))
+    model.add(Conv2D(128, (3, 3), padding='same', kernel_initializer='he_normal'))
     model.add(Activation('relu'))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Dropout(0.25))
 
-    model.add(Conv2D(256, (3, 3), padding='same'))
+    model.add(Conv2D(192, (3, 3), padding='same', kernel_initializer='he_normal'))
+    model.add(Activation('relu'))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(Dropout(0.25))
+
+    model.add(Conv2D(256, (3, 3), padding='same', kernel_initializer='he_normal'))
     model.add(Activation('relu'))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Dropout(0.25))
 
     model.add(Flatten())
-    model.add(Dense(1024, activation="relu"))
+    model.add(Dense(1024, activation="relu", kernel_initializer='he_normal'))
     model.add(Dropout(0.5))
 
-    model.add(Dense(1024, activation="relu"))
+    model.add(Dense(1024, activation="relu", kernel_initializer='he_normal'))
     model.add(Dropout(0.5))
 
     model.add(Dense(n_output, activation="softmax"))
