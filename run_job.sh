@@ -3,8 +3,8 @@
 # This script runs the complete learning job, getting data and weights from s3 and saving after rnu
 #
 # CONFIGURE YOUR INPUT AND OUTPUT FILES ON S3 HERE:
-export WEIGHTS_IN=M71-kanji_weights_in.h5
-export WEIGHTS_OUT=M71-kanji_weights_out.h5
+export WEIGHTS_IN=mobile-kanji_weights_in.h5
+export WEIGHTS_OUT=mobile-kanji_weights_out.h5
 export OUTPUT_TXT=output.txt
 export S3_BUCKET=s3://clausdata   # include dir, no trailing /
 
@@ -36,7 +36,7 @@ fi
 # run job
 source /home/ubuntu/anaconda3/etc/profile.d/conda.sh
 conda activate tensorflow_p36
-time python example_job.py &> output.txt
+time python example_mobile.py &> output.txt
 retVal=$?
 # on aws ..
 if [[ $(hostname) == "ip-"* ]]; then
