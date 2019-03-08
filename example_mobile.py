@@ -33,7 +33,7 @@ model.compile(loss='categorical_crossentropy', optimizer=adam, metrics=['accurac
 
 model.summary()
 
-model.fit(X_train, y_train, epochs=10, batch_size=16) #  verbose=2 
+model.fit(X_train, y_train, epochs=5, batch_size=16) #  verbose=2 
 
 score, acc = model.evaluate(X_test, y_test, batch_size=16, verbose=0)
 
