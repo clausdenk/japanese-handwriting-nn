@@ -51,24 +51,24 @@ def MobileNet(input_shape=None,
 
     init = initializers.TruncatedNormal(stddev=0.09)
 
-    x = _conv_block(img_input, 32, strides=(1, 1), kernel_initializers = init) # strides=(2, 2)
-    x = _depthwise_conv_block(x, 64, depth_multiplier, block_id=1, kernel_initializers = init)
+    x = _conv_block(img_input, 32, strides=(1, 1), kernel_initializer = init) # strides=(2, 2)
+    x = _depthwise_conv_block(x, 64, depth_multiplier, block_id=1, kernel_initializer = init)
  
-    x = _depthwise_conv_block(x, 128, depth_multiplier, strides=(1, 1), block_id=2, kernel_initializers = init) # strides=(2, 2)
-    x = _depthwise_conv_block(x, 128, depth_multiplier, block_id=3, kernel_initializers = init)
+    x = _depthwise_conv_block(x, 128, depth_multiplier, strides=(1, 1), block_id=2, kernel_initializer = init) # strides=(2, 2)
+    x = _depthwise_conv_block(x, 128, depth_multiplier, block_id=3, kernel_initializer = init)
 
-    x = _depthwise_conv_block(x, 256, depth_multiplier, strides=(2, 2), block_id=4, kernel_initializers = init)
-    x = _depthwise_conv_block(x, 256, depth_multiplier, block_id=5, kernel_initializers = init)
+    x = _depthwise_conv_block(x, 256, depth_multiplier, strides=(2, 2), block_id=4, kernel_initializer = init)
+    x = _depthwise_conv_block(x, 256, depth_multiplier, block_id=5, kernel_initializer = init)
 
-    x = _depthwise_conv_block(x, 512, depth_multiplier, strides=(2, 2), block_id=6, kernel_initializers = init)
-    x = _depthwise_conv_block(x, 512, depth_multiplier, block_id=7, kernel_initializers = init)
-    x = _depthwise_conv_block(x, 512, depth_multiplier, block_id=8, kernel_initializers = init)
-    x = _depthwise_conv_block(x, 512, depth_multiplier, block_id=9, kernel_initializers = init)
-    x = _depthwise_conv_block(x, 512, depth_multiplier, block_id=10, kernel_initializers = init)
-    x = _depthwise_conv_block(x, 512, depth_multiplier, block_id=11, kernel_initializers = init)
+    x = _depthwise_conv_block(x, 512, depth_multiplier, strides=(2, 2), block_id=6, kernel_initializer = init)
+    x = _depthwise_conv_block(x, 512, depth_multiplier, block_id=7, kernel_initializer = init)
+    x = _depthwise_conv_block(x, 512, depth_multiplier, block_id=8, kernel_initializer = init)
+    x = _depthwise_conv_block(x, 512, depth_multiplier, block_id=9, kernel_initializer = init)
+    x = _depthwise_conv_block(x, 512, depth_multiplier, block_id=10, kernel_initializer = init)
+    x = _depthwise_conv_block(x, 512, depth_multiplier, block_id=11, kernel_initializer = init)
 
-    x = _depthwise_conv_block(x, 1024, depth_multiplier, strides=(2, 2), block_id=12, kernel_initializers = init)
-    x = _depthwise_conv_block(x, 1024, depth_multiplier, block_id=13, kernel_initializers = init)
+    x = _depthwise_conv_block(x, 1024, depth_multiplier, strides=(2, 2), block_id=12, kernel_initializer = init)
+    x = _depthwise_conv_block(x, 1024, depth_multiplier, block_id=13, kernel_initializer = init)
 
 
     if backend.image_data_format() == 'channels_first':
@@ -81,7 +81,7 @@ def MobileNet(input_shape=None,
     x = layers.Dropout(dropout, name='dropout')(x)
     x = layers.Conv2D(classes, (1, 1),
                         padding='same',
-                        kernel_initializers = init,
+                        kernel_initializer = init,
                         name='conv_preds')(x)
     x = layers.Activation('softmax', name='act_softmax')(x)
     x = layers.Reshape((classes,), name='reshape_2')(x)
@@ -89,7 +89,7 @@ def MobileNet(input_shape=None,
     model = models.Model(img_input, x, name='mobilenet')
     return model
 
-def _conv_block(inputs, filters, kernel=(3, 3), strides=(1, 1), kernel_initializers = None):
+def _conv_block(inputs, filters, kernel=(3, 3), strides=(1, 1), kernel_initializer = None):
 
     channel_axis = 1 if backend.image_data_format() == 'channels_first' else -1
     x = layers.ZeroPadding2D(padding=((1, 1), (1, 1)), name='conv1_pad')(inputs) # ((0, 1), (0, 1))
@@ -97,13 +97,13 @@ def _conv_block(inputs, filters, kernel=(3, 3), strides=(1, 1), kernel_initializ
                       padding='valid',
                       use_bias=False,
                       strides=strides,
-                      kernel_initializers = kernel_initializers,
+                      kernel_initializer = kernel_initializer,
                       name='conv1')(x)
     x = layers.BatchNormalization(axis=channel_axis, name='conv1_bn')(x)
     return layers.ReLU(6., name='conv1_relu')(x)
 
 def _depthwise_conv_block(inputs, pointwise_conv_filters,
-                          depth_multiplier=1, strides=(1, 1), block_id=1, kernel_initializers = None):
+                          depth_multiplier=1, strides=(1, 1), block_id=1, kernel_initializer = None):
     """Adds a depthwise convolution block."""
 
     channel_axis = 1 if backend.image_data_format() == 'channels_first' else -1
@@ -118,7 +118,7 @@ def _depthwise_conv_block(inputs, pointwise_conv_filters,
                                depth_multiplier=depth_multiplier,
                                strides=strides,
                                use_bias=False,
-                               kernel_initializers = kernel_initializers,
+                               kernel_initializer = kernel_initializer,
                                name='conv_dw_%d' % block_id)(x)
     x = layers.BatchNormalization(
         axis=channel_axis, name='conv_dw_%d_bn' % block_id)(x)
@@ -128,6 +128,7 @@ def _depthwise_conv_block(inputs, pointwise_conv_filters,
                       padding='same',
                       use_bias=False,
                       strides=(1, 1),
+                      kernel_initializer = kernel_initializer,
                       name='conv_pw_%d' % block_id)(x)
     x = layers.BatchNormalization(axis=channel_axis,
                                   name='conv_pw_%d_bn' % block_id)(x)
