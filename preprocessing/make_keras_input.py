@@ -108,8 +108,9 @@ def data(database='ETL8B2', writers_per_char=160, mode='all', get_scripts=False,
     # rename labels from 0 to n_labels-1
     unique_labels = list(set(labels))
     labels_dict = {unique_labels[i]: i for i in range(len(unique_labels))}
+    inv_map = {v: k for k, v in labels_dict.items()}
     new_labels = np.array([labels_dict[l] for l in labels], dtype=np.int32)
-    inv_map = {v: k for k, v in new_labels.items()}
+
 
     if get_scripts:
         characters_shuffle, scripts_shuffle = shuffle(
