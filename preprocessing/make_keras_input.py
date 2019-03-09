@@ -146,4 +146,5 @@ def data(database='ETL8B2', writers_per_char=160, mode='all', get_scripts=False,
     nb_classes = len(unique_labels)
     y_train = np_utils.to_categorical(y_train, nb_classes)
     y_test = np_utils.to_categorical(y_test, nb_classes)
+    print(inv_map.shape)
     return x_train, y_train, x_test, y_test, input_shape, inv_map
