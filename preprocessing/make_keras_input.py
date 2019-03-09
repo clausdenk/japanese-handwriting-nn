@@ -109,6 +109,7 @@ def data(database='ETL8B2', writers_per_char=160, mode='all', get_scripts=False,
     unique_labels = list(set(labels))
     labels_dict = {unique_labels[i]: i for i in range(len(unique_labels))}
     new_labels = np.array([labels_dict[l] for l in labels], dtype=np.int32)
+    inv_map = {v: k for k, v in new_labels.items()}
 
     if get_scripts:
         characters_shuffle, scripts_shuffle = shuffle(
@@ -145,4 +146,4 @@ def data(database='ETL8B2', writers_per_char=160, mode='all', get_scripts=False,
     nb_classes = len(unique_labels)
     y_train = np_utils.to_categorical(y_train, nb_classes)
     y_test = np_utils.to_categorical(y_test, nb_classes)
-    return x_train, y_train, x_test, y_test, input_shape
+    return x_train, y_train, x_test, y_test, input_shape, inv_map
