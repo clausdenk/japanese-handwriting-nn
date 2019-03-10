@@ -4,6 +4,7 @@ import h5py
 import numpy as np
 
 from preprocessing.make_keras_input import data
+from preprocessing.data_utils import index_to_kanji
 from models import MNet64
 from keras.optimizers import Adam 
 from keras import callbacks
