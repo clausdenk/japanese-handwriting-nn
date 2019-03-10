@@ -8,8 +8,7 @@ from keras import backend
 from keras import layers
 from keras import models
 
-
-def MobileNet(input_shape=None,
+def MNet64(input_shape=None,
               depth_multiplier=1, # DepthwiseConv2D param
               dropout=1e-3,
               input_tensor=None,

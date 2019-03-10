@@ -4,7 +4,7 @@ import h5py
 import numpy as np
 
 from preprocessing.make_keras_input import data
-from models import MobileNet
+from models import MNet64
 from keras.optimizers import Adam 
 from keras import callbacks
 
@@ -32,7 +32,7 @@ print ("Test size: ", X_test.shape[0])
 print ("Classes: ", n_output)
 
 # setup model
-model = MobileNet(classes=n_output, input_shape=input_shape)
+model = MNet64(classes=n_output, input_shape=input_shape)
 
 adam = Adam(lr=1e-4)
 model.compile(loss='categorical_crossentropy', optimizer=adam, metrics=['accuracy'])
