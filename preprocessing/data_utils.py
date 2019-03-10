@@ -173,3 +173,13 @@ def get_ETL_data(dataset, categories, writers_per_char,
         output += [scriptTypes]
 
     return output
+
+def int_to_bytes(x):
+    return x.to_bytes((x.bit_length() + 7) // 8, 'big')
+def byte_to_kanji(b):
+    c = b'\033$B' + b
+    return c.decode('iso2022_jp')
+def index_to_kanji(i,inv_map):
+    a=inv_map[i]
+    return byte_to_kanji(int_to_bytes(a.item()))
+
